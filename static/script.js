@@ -179,7 +179,18 @@ analyzeButton.addEventListener("click", async () => {
         });
 
 
-        const data = await response.json();
+        const responseText = await response.text();
+        let data = {};
+
+        if (responseText) {
+            try {
+                data = JSON.parse(responseText);
+            } catch {
+                throw new Error(
+                    `The AI server returned an invalid response (${response.status}).`
+                );
+            }
+        }
 
 
         if (!response.ok) {
