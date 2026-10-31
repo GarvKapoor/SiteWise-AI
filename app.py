@@ -33,6 +33,14 @@ import os
 app = Flask(__name__)
 
 
+@app.errorhandler(Exception)
+def handle_unexpected_error(error):
+    app.logger.exception("Unhandled application error", exc_info=error)
+    return jsonify({
+        "error": "The server could not complete the site analysis."
+    }), 500
+
+
 # ============================================================
 # PATHS
 # ============================================================
